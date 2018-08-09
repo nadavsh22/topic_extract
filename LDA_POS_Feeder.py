@@ -44,7 +44,7 @@ def main_func(feed_url):
         run_LDA(sentences)
 
 
-"""run the LDA ,odel from the 'gensim' library, refine result to nouns using nltk's tagger"""
+"""run the LDA model from the 'gensim' library, refine result to nouns using nltk's tagger"""
 
 
 def run_LDA(sentences):
