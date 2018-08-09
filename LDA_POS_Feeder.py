@@ -8,6 +8,7 @@ import string
 import gensim
 from gensim import corpora
 import nltk.data
+import sys
 
 #######################################################
 
@@ -68,4 +69,8 @@ def single_doc_clean(doc):
     return tokenz
 
 
-main_func(DEFAULT_URL)
+if __name__ == '__main__':
+    if len(sys.argv) == 1:
+        main_func(DEFAULT_URL)
+    else:
+        main_func(sys.argv[1])
