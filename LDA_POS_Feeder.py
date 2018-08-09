@@ -14,21 +14,26 @@ import sys
 
 
 ###################-CONSTANTS-#########################
+
 DEFAULT_URL = "http://feeds.feedburner.com/TechCrunch/"
 cut_from_end = -9
 cut_from_start = 0
+NAME = 0
+TAG = 1
 stop = set(stopwords.words('english'))
 exclude = set(string.punctuation)
 lemma = WordNetLemmatizer()
 html_regex = '<.*?>'
 qoute_pattern = r'"(.*?)"'
+
+#######################################################
+
+###################-Define GRAMMER-#########################
 NOUNS = {'NN', 'NNP'}
-
 #######################################################
 
-###################-Define CFG-#########################
+"""parse feed and run over entries"""
 
-#######################################################
 
 def main_func(feed_url):
     feed = feedparser.parse(feed_url)
@@ -37,6 +42,9 @@ def main_func(feed_url):
         print(entry.link)
         sentences = preprocess_content(entry)
         run_LDA(sentences)
+
+
+"""run the LDA ,odel from the 'gensim' library, refine result to nouns using nltk's tagger"""
 
 
 def run_LDA(sentences):
@@ -48,11 +56,13 @@ def run_LDA(sentences):
     words = set()
     for topic in results:
         words.add(re.findall(qoute_pattern, topic[1])[0])
-    # print(ldamodel.print_topics(num_topics=3, num_words=2))
-    # print(ldamodel.print_topics(num_topics=2, num_words=3))
+    # Refine results using nltk's POS_TAGGER
     words = nltk.pos_tag(words)
-    words = [word[0] for word in words if word[1] in NOUNS]
+    words = [word[NAME] for word in words if word[TAG] in NOUNS]
     print(words)
+
+
+"""tokenize sentences in entry's content, clean text using the cleaner function below"""
 
 
 def preprocess_content(entry):
@@ -60,6 +70,9 @@ def preprocess_content(entry):
     tokenaizer = nltk.data.load('tokenizers/punkt/english.pickle')
     sentences = [single_doc_clean(sentence).split() for sentence in tokenaizer.tokenize(entry_content)]
     return sentences
+
+
+"""remove stop words, digits and punctuation marks"""
 
 
 def single_doc_clean(doc):
