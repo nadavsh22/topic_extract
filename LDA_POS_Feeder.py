@@ -24,6 +24,7 @@ stop = set(stopwords.words('english'))
 exclude = set(string.punctuation)
 lemma = WordNetLemmatizer()
 html_regex = '<.*?>'
+WORD_LENGTH = 3
 qoute_pattern = r'"(.*?)"'
 
 #######################################################
@@ -78,7 +79,7 @@ def preprocess_content(entry):
 def single_doc_clean(doc):
     no_stop = " ".join([word for word in doc.lower().split() if word not in stop])
     no_punc = ''.join(char for char in no_stop if char not in exclude and not char.isdigit())
-    tokenz = " ".join(lemma.lemmatize(word) for word in no_punc.split() if len(word) >= 3)
+    tokenz = " ".join(lemma.lemmatize(word) for word in no_punc.split() if len(word) >= WORD_LENGTH)
     return tokenz
 
 
