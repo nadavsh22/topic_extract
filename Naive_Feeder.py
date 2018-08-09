@@ -1,3 +1,6 @@
+# for the top stories from techCrunch, prints their Link, title, and keywords
+# currently prints keywords both from raw text and after wikipedia comparison
+
 ###################-IMPORTS-########################
 import nltk
 import feedparser
