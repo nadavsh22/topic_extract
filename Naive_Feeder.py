@@ -1,5 +1,8 @@
 # for the top stories from techCrunch, prints their Link, title, and keywords
 # currently prints keywords both from raw text and after wikipedia comparison
+# note that tagging is done before input preprocessing, that is due to the fact
+#  that capitalization is indicative of proper nouns, hence it yields more
+# relevant results.
 
 ###################-IMPORTS-########################
 import nltk
@@ -47,8 +50,8 @@ def main_func(feed_url):
     for entry in feed.entries:
         print(entry.link)
         print(entry.title)
-        print(', '.join(main_word_extract(entry.title, entry.summary)[0])) # raw results
-        print(', '.join(main_word_extract(entry.title, entry.summary)[1])) # wikipedia comparison results
+        print(', '.join(main_word_extract(entry.title, entry.summary)[0]))  # raw results
+        print(', '.join(main_word_extract(entry.title, entry.summary)[1]))  # wikipedia comparison results
 
 
 """extract the main words of a sentence using the nltk tagger"""
